@@ -7,6 +7,7 @@ import org.apache.hadoop.hbase.client.ConnectionFactory
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.{HBaseConfiguration, HColumnDescriptor, HConstants, HTableDescriptor, KeyValue, TableName}
 import org.apache.hadoop.hbase.mapreduce.{HFileOutputFormat2, LoadIncrementalHFiles, TableInputFormat}
+import org.apache.hadoop.hbase.regionserver.HRegion
 import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.mapreduce.Job
 import org.apache.spark.{SparkConf, SparkContext}
@@ -21,6 +22,8 @@ object BulkLoad {
   val qualifiername = "title";
 
   def main(args: Array[String]): Unit = {
+//    HRegion
+
     val sparkConf = new SparkConf()
       .setMaster("local")
       .setAppName(s"${this.getClass.getSimpleName}")

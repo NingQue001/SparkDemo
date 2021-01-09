@@ -16,6 +16,7 @@ object DataSetDemo {
     val productDF = products.toDF()
     productDF.registerTempTable("product")
     sqlContext.sql("select * from product").show()
+    // 写入HDFS 文件格式是parquet
 //    productDF.write.parquet("/usr/local/tmp/product.parquet")
 
     //read from parquet file
