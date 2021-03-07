@@ -7,6 +7,9 @@ import org.apache.spark.streaming._
 import org.apache.spark.streaming.kafka010.LocationStrategies.PreferConsistent
 import org.apache.spark.streaming.kafka010.ConsumerStrategies.Subscribe
 
+/**
+ * 创建DStream接收Kafka的数据流
+ */
 object DirectStreamFromKafka {
   def main(args: Array[String]): Unit = {
     val conf = new SparkConf()
