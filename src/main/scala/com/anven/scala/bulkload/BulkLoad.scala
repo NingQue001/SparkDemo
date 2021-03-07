@@ -12,6 +12,9 @@ import org.apache.hadoop.hbase.util.Bytes
 import org.apache.hadoop.mapreduce.Job
 import org.apache.spark.{SparkConf, SparkContext}
 
+/**
+ * BulkLoad：批量导入，减少HBase服务器的压力
+ */
 object BulkLoad {
   val zookeeperQuorum = "node01:2181,node02:2181,node03:2181";
   val datasourcePath = "/usr/local/tmp/news_profile_data.txt";
@@ -36,12 +39,15 @@ object BulkLoad {
     hbaseConf.set(HConstants.ZOOKEEPER_QUORUM, zookeeperQuorum)
     hbaseConf.set(TableInputFormat.INPUT_TABLE, tableName)
     val hbaseConn = ConnectionFactory.createConnection(hbaseConf)
+    // 创建HBase的Admin，通过Admin操作HBase
     val admin = hbaseConn.getAdmin
 
     // 1. 准备程序运行的环境
     // 如何 Hbase 表不存在，就创建一个新表
     if (!admin.tableExists(TableName.valueOf(tableName))) {
+      // 表
       val desc = new HTableDescriptor(TableName.valueOf(tableName))
+      // 列族
       val hcd = new HColumnDescriptor(familyName)
       desc.addFamily(hcd)
       admin.createTable(desc)
@@ -60,6 +66,7 @@ object BulkLoad {
         val title = jsonObject.get("title").toString.trim
         (rowKey, title)
       })
+      // sortByKey 会Shuffle
       .sortByKey()
       .map(tuple => {
         val kv = new KeyValue(Bytes.toBytes(tuple._1)
@@ -76,6 +83,7 @@ object BulkLoad {
     job.setMapOutputValueClass(classOf[KeyValue])
     HFileOutputFormat2.configureIncrementalLoadMap(job, table)
 
+    // 保存文件到HDFS
     data.saveAsNewAPIHadoopFile(
       hFilePath,
       classOf[ImmutableBytesWritable],
