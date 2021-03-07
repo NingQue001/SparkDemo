@@ -15,7 +15,7 @@ object DirectStreamFromKafka {
     val conf = new SparkConf()
       .setAppName(s"${this.getClass.getSimpleName}")
       .setMaster("local")
-    val sc = new StreamingContext(conf, Seconds(1))
+    val ssc = new StreamingContext(conf, Seconds(1))
 
     val kafkaParams = Map[String, Object](
       "bootstrap.servers" -> "node01:9092,node02:9092,node03:9092",
@@ -29,7 +29,7 @@ object DirectStreamFromKafka {
     val topics = Array("test")
 
     val stream = KafkaUtils.createDirectStream(
-      sc,
+      ssc,
       PreferConsistent,
       Subscribe[String, String](topics, kafkaParams)
     )
