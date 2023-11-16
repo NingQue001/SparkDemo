@@ -17,12 +17,36 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
+    <!-- 指定NameNode的地址 -->
     <property>
         <name>fs.defaultFS</name>
-        <value>hdfs://node01:9000</value>
+        <value>hdfs://hdp01:8020</value>
     </property>
+
+    <!-- 指定hadoop数据的存储目录 -->
     <property>
         <name>hadoop.tmp.dir</name>
-        <value>/usr/local/hadoop-3.2.1/hadoopdata</value>
+        <value>/usr/local/bigdata/hadoop-3.3.6/data</value>
+    </property>
+
+    <!-- 配置HDFS网页登录使用的静态用户为root,如果不配置的话，当在hdfs页面点击删除时看看结果 -->
+    <property>
+        <name>hadoop.http.staticuser.user</name>
+        <value>root</value>
+    </property>
+    <!-- 文件垃圾桶保存时间 -->
+    <property>
+      <name>fs.trash.interval</name>
+      <value>1440</value>
+    </property>
+
+    <!--配置root(超级用户)允许通过代理的⽤户-->
+    <property>
+      <name>hadoop.proxyuser.root.hosts</name>
+      <value>*</value>
+    </property>
+    <property>
+      <name>hadoop.proxyuser.root.groups</name>
+      <value>*</value>
     </property>
 </configuration>

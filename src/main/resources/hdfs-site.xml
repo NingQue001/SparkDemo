@@ -17,26 +17,19 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-    <!--
-        这两个配置用于指定namenode和datanode存放数据的位置
-        如果不指定，数据会存放到core-site.xml中配hadoop.tmp.dir目录下
-    -->
-    <property>
-        <name>dfs.namenode.name.dir</name>
-        <value>/usr/local/hadoop-3.2.1/hadoopdata/name</value>
-    </property>
-    <property>
-        <name>dfs.datanode.data.dir</name>
-        <value>/usr/local/hadoop-3.2.1/hadoopdata/data</value>
-    </property>
-    <!--配置数据副本数，不要超过datanode节点数-->
+    <!-- 配置2个副本 -->
     <property>
         <name>dfs.replication</name>
         <value>2</value>
     </property>
-    <!--指定secondarynamenode所在节点-->
+    <!-- nn web端访问地址-->
     <property>
-        <name>dfs.secondary.http.address</name>
-        <value>node02:50090</value>
+        <name>dfs.namenode.http-address</name>
+        <value>hdp01:9870</value>
+    </property>
+    <!-- snn web端访问地址-->
+    <property>
+        <name>dfs.namenode.secondary.http-address</name>
+        <value>hdp03:9868</value>
     </property>
 </configuration>
